@@ -3,10 +3,14 @@ package com.example.dot_button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.dot_button.databinding.ActivityMainBinding;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -15,6 +19,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean x;
     private String str1;
     private String str2;
+
+    void elevator_open(){
+        SetMotorState(1, 0,10);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        SetMotorState(1, 1,10);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        SetMotorState(0, 1,10);
+    }
+
+    void elevator_move_up(int btnum){
+        for(int k = btnum; num <= k; num++)
+        {
+            ReceiveDotValue(num);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        num = btnum;
+    }
+
+    void elevator_move_down(int btnum){
+        for(int k = btnum; num <= k; num++)
+        {
+            ReceiveDotValue(num);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        num = btnum;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,29 +106,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_1: {
                 //ReceiveDotValue(1);
                 if(num<1){
-                    for(int k = 1; num <= k; num++)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 1;
+                    elevator_move_up(1);
+                    elevator_open();
                     break;
                 }
                 if(num>1){
-                    for(int k = 1; num >= k; num--)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 1;
+                    elevator_move_down(1);
+                    elevator_open();
                     break;
                 }
                 num = 1;
@@ -91,29 +121,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_2: {
                 //ReceiveDotValue(2);
                 if(num<2){
-                    for(int k = 2; num <= k; num++)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 2;
+                    elevator_move_up(2);
+                    elevator_open();
                     break;
                 }
                 if(num>2){
-                    for(int k = 2; num >= k; num--)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 2;
+                    elevator_move_down(2);
+                    elevator_open();
                     break;
                 }
                 num = 2;
@@ -122,29 +136,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_3: {
                 //ReceiveDotValue(3);
                 if(num<3){
-                    for(int k = 3; num <= k; num++)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 3;
+                    elevator_move_up(3);
+                    elevator_open();
                     break;
                 }
                 if(num>3){
-                    for(int k = 3; num >= k; num--)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 3;
+                    elevator_move_down(3);
+                    elevator_open();
                     break;
                 }
                 num = 3;
@@ -153,29 +151,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_4: {
                 //ReceiveDotValue(4);
                 if(num<4){
-                    for(int k = 4; num <= k; num++)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 4;
+                    elevator_move_up(4);
+                    elevator_open();
                     break;
                 }
                 if(num>4){
-                    for(int k = 4; num >= k; num--)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 4;
+                    elevator_move_down(4);
+                    elevator_open();
                     break;
                 }
                 num = 4;
@@ -184,29 +166,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_5: {
                 //ReceiveDotValue(5);
                 if(num<5){
-                    for(int k = 5; num <= k; num++)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 5;
+                    elevator_move_up(5);
+                    elevator_open();
                     break;
                 }
                 if(num>5){
-                    for(int k = 5; num >= k; num--)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 5;
+                    elevator_move_down(5);
+                    elevator_open();
                     break;
                 }
                 num = 5;
@@ -215,29 +181,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_6: {
                 //ReceiveDotValue(6);
                 if(num<6){
-                    for(int k = 6; num <= k; num++)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 6;
+                    elevator_move_up(6);
+                    elevator_open();
                     break;
                 }
                 if(num>6){
-                    for(int k = 6; num >= k; num--)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 6;
+                    elevator_move_down(6);
+                    elevator_open();
                     break;
                 }
                 num = 6;
@@ -246,29 +196,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_7: {
                 //ReceiveDotValue(7);
                 if(num<7){
-                    for(int k = 7; num <= k; num++)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 7;
+                    elevator_move_up(7);
+                    elevator_open();
                     break;
                 }
                 if(num>7){
-                    for(int k = 7; num >= k; num--)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 7;
+                    elevator_move_down(7);
+                    elevator_open();
                     break;
                 }
                 num = 7;
@@ -276,29 +210,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.btn_8: {
                 if(num<8){
-                    for(int k = 8; num <= k; num++)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 8;
+                    elevator_move_up(8);
+                    elevator_open();
                     break;
                 }
                 if(num>8){
-                    for(int k = 8; num >= k; num--)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 8;
+                    elevator_move_down(8);
+                    elevator_open();
                     break;
                 }
                 num = 8;
@@ -307,29 +225,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_9: {
                 //ReceiveDotValue(9);
                 if(num<9){
-                    for(int k = 9; num <= k; num++)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 9;
+                    elevator_move_up(9);
+                    elevator_open();
                     break;
                 }
                 if(num>9){
-                    for(int k = 9; num >= k; num--)
-                    {
-                        ReceiveDotValue(num);
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    num = 9;
+                    elevator_move_down(9);
+                    elevator_open();
                     break;
                 }
                 num = 9;
@@ -339,11 +241,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(x == false)
                 {
                     ReceiveTextLcdValue(str1, str2);
+                    ReceiveBuzzerValue(1);
                     x = true;
                 }
                 else
                 {
                     ReceiveTextLcdValue(" ", " ");
+                    ReceiveBuzzerValue(0);
                     x = false;
                 }
                 break;
@@ -353,6 +257,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public native String ReceiveDotValue(int i);
     public native int ReceiveTextLcdValue(String ptr1, String ptr2);
+    public native int ReceiveBuzzerValue(int x);
+    public native String SetMotorState(int x, int y, int z);
 
     static {
         System.loadLibrary("native-lib");

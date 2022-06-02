@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+
 #include "fpga-dot-font.h"
 #define DOT_DEVICE "/dev/fpga_dot"
 
@@ -12,6 +13,12 @@
 #define LINE_BUFF 16
 #define MAX_BUFF 32
 #define FPGA_TEXT_LCD_DEVICE "/dev/fpga_text_lcd"
+
+
+#define BUZZER_DEVICE "/dev/fpga_buzzer"
+
+
+#define STEP_DEVICE "/dev/fpga_step_motor"
 
 int fpga_dot(int x)
 {
@@ -118,4 +125,88 @@ Java_com_example_dot_1button_MainActivity_ReceiveTextLcdValue(JNIEnv *env, jobje
     (*env).ReleaseStringUTFChars(val1, pstr1);
     (*env).ReleaseStringUTFChars(val2, pstr2);
     return 0;
+}
+
+int fpga_buzzer(int x)
+{
+    int dev;
+    unsigned char data;
+    unsigned char retval;
+
+    data = (char)x;
+
+    dev = open(BUZZER_DEVICE, O_RDWR);
+    printf("%d", dev);
+    if(dev < 0)
+    {
+        __android_log_print(ANDROID_LOG_INFO, "Device Open Error", "Driver = %d", x);
+        return -1;
+    }
+    else
+    {
+        __android_log_print(ANDROID_LOG_INFO, "Device Open Success", "Driver = %d", x);
+        write(dev, &data, 1);
+        close(dev);
+        return 0;
+    }
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_example_dot_1button_MainActivity_ReceiveBuzzerValue(JNIEnv *env, jobject thiz, jint val) {
+    // TODO: implement ReceiveBuzzerValue()
+    jint result;
+    __android_log_print(ANDROID_LOG_INFO, "FpgaBuzzerExample", "value = %d", val);
+    result = fpga_buzzer(val);
+
+    return result;
+
+}
+
+int fpga_step_motor(int action, int direction, int speed)
+{
+    int i;
+    int dev;
+    int str_size;
+
+    unsigned char motor_state[3];
+
+    if(speed > 250)
+        speed = 250;
+    else if (speed < 5)
+        speed = 5;
+
+    memset(motor_state, 0, sizeof(motor_state));
+
+    motor_state[0] = (unsigned char)action;
+    motor_state[1] = (unsigned char)direction;
+    motor_state[2] = (unsigned char)speed;
+
+    dev = open(STEP_DEVICE, O_RDWR);
+    if(dev < 0)
+    {
+        __android_log_print(ANDROID_LOG_INFO, "Device Open Error", "Driver = %d", dev);
+    }
+    else
+    {
+        __android_log_print(ANDROID_LOG_INFO, "Device Open Success", "Driver = %d",dev);
+        write (dev, motor_state, sizeof(motor_state));
+
+        __android_log_print(ANDROID_LOG_INFO, "debug 1", "Driver = %d", dev);
+        close(dev);
+    }
+
+    return 0;
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_example_dot_1button_MainActivity_SetMotorState(JNIEnv *env, jobject thiz, jint act, jint dir,
+                                                        jint spd) {
+    // TODO: implement SetMotorState()
+    __android_log_print(ANDROID_LOG_INFO, "FpgaStepMotorExample", "SetMotor");
+    fpga_step_motor(act, dir, spd);
+
+    return 0;
+
 }
