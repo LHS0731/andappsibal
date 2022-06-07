@@ -20,47 +20,83 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String str1;
     private String str2;
 
+    private String[] lcd_str = new String[9];
+
     void elevator_open(){
+
         SetMotorState(1, 0,10);
+
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         SetMotorState(1, 1,10);
+
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         SetMotorState(0, 1,10);
     }
 
+    public class Move_Up extends Thread{
+        public void elevator_move_up(int btnum){
+            for(int k = btnum; num >= k; num--)
+            {
+                ReceiveDotValue(num);
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+            }
+            num = btnum;
+        }
+    }
     void elevator_move_up(int btnum){
         for(int k = btnum; num <= k; num++)
         {
             ReceiveDotValue(num);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
         num = btnum;
     }
 
+    public class Move_Down extends Thread{
+        public void elevator_move_down(int btnum){
+            for(int k = btnum; num >= k; num--)
+            {
+                ReceiveDotValue(num);
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+            }
+            num = btnum;
+        }
+    }
     void elevator_move_down(int btnum){
-        for(int k = btnum; num <= k; num++)
+        for(int k = btnum; num >= k; num--)
         {
             ReceiveDotValue(num);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
         num = btnum;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,11 +131,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         str1 = "warning";
         str2 = "system error";
 
+        lcd_str[0] = "1st floor";
+        lcd_str[1] = "2nd floor";
+        lcd_str[2] = "3th floor";
+        lcd_str[3] = "4th floor";
+        lcd_str[4] = "5th floor";
+        lcd_str[5] = "6th floor";
+        lcd_str[6] = "7th floor";
+        lcd_str[7] = "8th floor";
+        lcd_str[8] = "9th floor";
+
         num = 1;
         x = false;
         ReceiveDotValue(1);
     }
 
+    Move_Down down = new Move_Down();
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -107,11 +154,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //ReceiveDotValue(1);
                 if(num<1){
                     elevator_move_up(1);
+                    ReceiveTextLcdValue(lcd_str[0], " ");
                     elevator_open();
                     break;
                 }
                 if(num>1){
                     elevator_move_down(1);
+                    ReceiveTextLcdValue(lcd_str[0], " ");
                     elevator_open();
                     break;
                 }
@@ -122,11 +171,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //ReceiveDotValue(2);
                 if(num<2){
                     elevator_move_up(2);
+                    ReceiveTextLcdValue(lcd_str[1], " ");
                     elevator_open();
                     break;
                 }
                 if(num>2){
                     elevator_move_down(2);
+                    ReceiveTextLcdValue(lcd_str[1], " ");
                     elevator_open();
                     break;
                 }
@@ -137,11 +188,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //ReceiveDotValue(3);
                 if(num<3){
                     elevator_move_up(3);
+                    ReceiveTextLcdValue(lcd_str[2], " ");
                     elevator_open();
                     break;
                 }
                 if(num>3){
                     elevator_move_down(3);
+                    ReceiveTextLcdValue(lcd_str[2], " ");
                     elevator_open();
                     break;
                 }
@@ -152,11 +205,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //ReceiveDotValue(4);
                 if(num<4){
                     elevator_move_up(4);
+                    ReceiveTextLcdValue(lcd_str[3], " ");
                     elevator_open();
                     break;
                 }
                 if(num>4){
                     elevator_move_down(4);
+                    ReceiveTextLcdValue(lcd_str[3], " ");
                     elevator_open();
                     break;
                 }
@@ -167,11 +222,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //ReceiveDotValue(5);
                 if(num<5){
                     elevator_move_up(5);
+                    ReceiveTextLcdValue(lcd_str[4], " ");
                     elevator_open();
                     break;
                 }
                 if(num>5){
                     elevator_move_down(5);
+                    ReceiveTextLcdValue(lcd_str[4], " ");
                     elevator_open();
                     break;
                 }
@@ -182,11 +239,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //ReceiveDotValue(6);
                 if(num<6){
                     elevator_move_up(6);
+                    ReceiveTextLcdValue(lcd_str[5], " ");
                     elevator_open();
                     break;
                 }
                 if(num>6){
                     elevator_move_down(6);
+                    ReceiveTextLcdValue(lcd_str[5], " ");
                     elevator_open();
                     break;
                 }
@@ -197,11 +256,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //ReceiveDotValue(7);
                 if(num<7){
                     elevator_move_up(7);
+                    ReceiveTextLcdValue(lcd_str[6], " ");
                     elevator_open();
                     break;
                 }
                 if(num>7){
                     elevator_move_down(7);
+                    ReceiveTextLcdValue(lcd_str[6], " ");
                     elevator_open();
                     break;
                 }
@@ -211,11 +272,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_8: {
                 if(num<8){
                     elevator_move_up(8);
+                    ReceiveTextLcdValue(lcd_str[7], " ");
                     elevator_open();
                     break;
                 }
                 if(num>8){
                     elevator_move_down(8);
+                    ReceiveTextLcdValue(lcd_str[7], " ");
                     elevator_open();
                     break;
                 }
@@ -226,11 +289,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //ReceiveDotValue(9);
                 if(num<9){
                     elevator_move_up(9);
+                    ReceiveTextLcdValue(lcd_str[8], " ");
                     elevator_open();
                     break;
                 }
                 if(num>9){
                     elevator_move_down(9);
+                    ReceiveTextLcdValue(lcd_str[8], " ");
                     elevator_open();
                     break;
                 }

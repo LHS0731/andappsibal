@@ -4,6 +4,7 @@
 #include <android/log.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <time.h>
 
 
 #include "fpga-dot-font.h"
@@ -32,6 +33,7 @@ int fpga_dot(int x)
     }
     else{
         __android_log_print(ANDROID_LOG_INFO, "Device Open Success", "Driver = %d", x);
+        sleep(1);
         switch (x) {
             case 1:
                 write(dev,fpga_number[1], str_size);
