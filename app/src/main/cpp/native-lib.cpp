@@ -62,6 +62,9 @@ int fpga_dot(int x)
             case 9:
                 write(dev,fpga_number[9], str_size);
                 break;
+            case 10:
+                write(dev, fpga_set_blank, sizeof(fpga_set_blank));
+                break;
         }
         close(dev);
     }
