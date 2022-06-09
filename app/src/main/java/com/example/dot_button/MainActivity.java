@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,80 +20,74 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean x;
     private String str1;
     private String str2;
-
     private String[] lcd_str = new String[9];
+
+    private Handler handler = new Handler();
 
     void elevator_open(){
 
         SetMotorState(1, 0,10);
-
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        //열리는동작 2초
+
+        SetMotorState(0, 0,10);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //멈추는동작 3초
 
         SetMotorState(1, 1,10);
-
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        //닫히는동작 2초
         SetMotorState(0, 1,10);
+        //멈춤
     }
 
-    public class Move_Up extends Thread{
-        public void elevator_move_up(int btnum){
-            for(int k = btnum; num >= k; num--)
-            {
-                ReceiveDotValue(num);
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-            }
-            num = btnum;
-        }
-    }
     void elevator_move_up(int btnum){
         for(int k = btnum; num <= k; num++)
         {
-            ReceiveDotValue(num);
+//            ReceiveDotValue(num);
 //            try {
 //                Thread.sleep(1000);
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ReceiveDotValue(num);
+                }
+            }, 1000);
         }
         num = btnum;
     }
 
-    public class Move_Down extends Thread{
-        public void elevator_move_down(int btnum){
-            for(int k = btnum; num >= k; num--)
-            {
-                ReceiveDotValue(num);
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-            }
-            num = btnum;
-        }
-    }
     void elevator_move_down(int btnum){
         for(int k = btnum; num >= k; num--)
         {
-            ReceiveDotValue(num);
+//            ReceiveDotValue(num);
 //            try {
 //                Thread.sleep(1000);
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ReceiveDotValue(num);
+                }
+            }, 1000);
         }
         num = btnum;
     }
@@ -144,24 +139,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         num = 1;
         x = false;
         ReceiveDotValue(1);
+
     }
 
-    Move_Down down = new Move_Down();
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_1: {
                 //ReceiveDotValue(1);
                 if(num<1){
-                    elevator_move_up(1);
-                    ReceiveTextLcdValue(lcd_str[0], " ");
-                    elevator_open();
+//                    elevator_move_up(1);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 1; num <= k; num++)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[0], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 if(num>1){
-                    elevator_move_down(1);
-                    ReceiveTextLcdValue(lcd_str[0], " ");
-                    elevator_open();
+                    //elevator_move_down(1);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 1; num >= k; num--)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[0], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 num = 1;
@@ -170,15 +184,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_2: {
                 //ReceiveDotValue(2);
                 if(num<2){
-                    elevator_move_up(2);
-                    ReceiveTextLcdValue(lcd_str[1], " ");
-                    elevator_open();
+                    //elevator_move_up(2);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 2; num <= k; num++)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[1], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 if(num>2){
-                    elevator_move_down(2);
-                    ReceiveTextLcdValue(lcd_str[1], " ");
-                    elevator_open();
+                    //elevator_move_down(2);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 1; num >= k; num--)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[1], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 num = 2;
@@ -187,15 +219,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_3: {
                 //ReceiveDotValue(3);
                 if(num<3){
-                    elevator_move_up(3);
-                    ReceiveTextLcdValue(lcd_str[2], " ");
-                    elevator_open();
+                    //elevator_move_up(3);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 3; num <= k; num++)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[2], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 if(num>3){
-                    elevator_move_down(3);
-                    ReceiveTextLcdValue(lcd_str[2], " ");
-                    elevator_open();
+                    //elevator_move_down(3);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 3; num >= k; num--)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[2], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 num = 3;
@@ -204,15 +254,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_4: {
                 //ReceiveDotValue(4);
                 if(num<4){
-                    elevator_move_up(4);
-                    ReceiveTextLcdValue(lcd_str[3], " ");
-                    elevator_open();
+                    //elevator_move_up(4);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 4; num <= k; num++)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[3], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 if(num>4){
-                    elevator_move_down(4);
-                    ReceiveTextLcdValue(lcd_str[3], " ");
-                    elevator_open();
+                    //elevator_move_down(4);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 4; num >= k; num--)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[3], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 num = 4;
@@ -221,15 +289,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_5: {
                 //ReceiveDotValue(5);
                 if(num<5){
-                    elevator_move_up(5);
-                    ReceiveTextLcdValue(lcd_str[4], " ");
-                    elevator_open();
+//                    elevator_move_up(5);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 5; num <= k; num++)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[4], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 if(num>5){
-                    elevator_move_down(5);
-                    ReceiveTextLcdValue(lcd_str[4], " ");
-                    elevator_open();
+//                    elevator_move_down(5);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 5; num >= k; num--)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[4], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 num = 5;
@@ -238,15 +324,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_6: {
                 //ReceiveDotValue(6);
                 if(num<6){
-                    elevator_move_up(6);
-                    ReceiveTextLcdValue(lcd_str[5], " ");
-                    elevator_open();
+                    //elevator_move_up(6);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 6; num <= k; num++)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[5], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 if(num>6){
-                    elevator_move_down(6);
-                    ReceiveTextLcdValue(lcd_str[5], " ");
-                    elevator_open();
+                    //elevator_move_down(6);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 6; num >= k; num--)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[5], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 num = 6;
@@ -255,15 +359,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_7: {
                 //ReceiveDotValue(7);
                 if(num<7){
-                    elevator_move_up(7);
-                    ReceiveTextLcdValue(lcd_str[6], " ");
-                    elevator_open();
+//                    elevator_move_up(7);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 7; num <= k; num++)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[6], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 if(num>7){
-                    elevator_move_down(7);
-                    ReceiveTextLcdValue(lcd_str[6], " ");
-                    elevator_open();
+//                    elevator_move_down(7);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 7; num >= k; num--)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[6], " ");
+                            elevator_open();
+                        }
+                    }.start();
+
                     break;
                 }
                 num = 7;
@@ -271,15 +394,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.btn_8: {
                 if(num<8){
-                    elevator_move_up(8);
-                    ReceiveTextLcdValue(lcd_str[7], " ");
-                    elevator_open();
+                    //elevator_move_up(8);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 8; num <= k; num++)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[7], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 if(num>8){
-                    elevator_move_down(8);
-                    ReceiveTextLcdValue(lcd_str[7], " ");
-                    elevator_open();
+                    //elevator_move_down(8);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 8; num >= k; num--)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[7], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 num = 8;
@@ -288,15 +429,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_9: {
                 //ReceiveDotValue(9);
                 if(num<9){
-                    elevator_move_up(9);
-                    ReceiveTextLcdValue(lcd_str[8], " ");
-                    elevator_open();
+                    //elevator_move_up(9);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 9; num <= k; num++)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[8], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 if(num>9){
-                    elevator_move_down(9);
-                    ReceiveTextLcdValue(lcd_str[8], " ");
-                    elevator_open();
+                    //elevator_move_down(9);
+                    new Thread(){
+                        public void run(){
+                            for(int k = 9; num >= k; num--)
+                            {
+                                ReceiveDotValue(num);
+                                SystemClock.sleep(1000);
+                            }
+                            ReceiveTextLcdValue(lcd_str[8], " ");
+                            elevator_open();
+                        }
+                    }.start();
                     break;
                 }
                 num = 9;
