@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     void elevator_running_up (int second){
         //엘레베이터가 올라갈때
-        //왼쪽방향으로 스피드 3만큼 회전시킨다.
+        //왼쪽방향으로 스피드 5만큼 회전시킨다.
         SetMotorState(1, 0,5);
         try {
             Thread.sleep(1000 * second);
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     void elevator_running_down (int second){
         //엘레베이터가 내려갈때
-        //오른쪽방향으로 스피드 3만큼 회전시킨다.
+        //오른쪽방향으로 스피드 5만큼 회전시킨다.
         SetMotorState(1, 1,5);
         try {
             Thread.sleep(1000 * second);
