@@ -4,22 +4,10 @@
 #include <android/log.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <time.h>
 
 
 #include "fpga-dot-font.h"
 #define DOT_DEVICE "/dev/fpga_dot"
-
-
-#define LINE_BUFF 16
-#define MAX_BUFF 32
-#define FPGA_TEXT_LCD_DEVICE "/dev/fpga_text_lcd"
-
-
-#define BUZZER_DEVICE "/dev/fpga_buzzer"
-
-
-#define STEP_DEVICE "/dev/fpga_step_motor"
 
 int fpga_dot(int x)
 {
@@ -41,29 +29,10 @@ int fpga_dot(int x)
             case 2:
                 write(dev,fpga_number[2], str_size);
                 break;
-            case 3:
-                write(dev,fpga_number[3], str_size);
-                break;
-            case 4:
-                write(dev,fpga_number[4], str_size);
-                break;
-            case 5:
-                write(dev,fpga_number[5], str_size);
-                break;
-            case 6:
-                write(dev,fpga_number[6], str_size);
-                break;
-            case 7:
-                write(dev,fpga_number[7], str_size);
-                break;
-            case 8:
-                write(dev,fpga_number[8], str_size);
-                break;
+
+
             case 9:
                 write(dev,fpga_number[9], str_size);
-                break;
-            case 10:
-                write(dev, fpga_set_blank, sizeof(fpga_set_blank));
                 break;
         }
         close(dev);
@@ -79,6 +48,10 @@ Java_com_example_dot_1button_MainActivity_ReceiveDotValue(JNIEnv *env, jobject t
     fpga_dot(i);
     return 0;
 }
+
+#define LINE_BUFF 16
+#define MAX_BUFF 32
+#define FPGA_TEXT_LCD_DEVICE "/dev/fpga_text_lcd"
 
 int fpga_text_lcd(const char* str1, const char* str2)
 {
@@ -132,6 +105,8 @@ Java_com_example_dot_1button_MainActivity_ReceiveTextLcdValue(JNIEnv *env, jobje
     return 0;
 }
 
+#define BUZZER_DEVICE "/dev/fpga_buzzer"
+
 int fpga_buzzer(int x)
 {
     int dev;
@@ -165,8 +140,9 @@ Java_com_example_dot_1button_MainActivity_ReceiveBuzzerValue(JNIEnv *env, jobjec
     result = fpga_buzzer(val);
 
     return result;
-
 }
+
+#define STEP_DEVICE "/dev/fpga_step_motor"
 
 int fpga_step_motor(int action, int direction, int speed)
 {
@@ -200,7 +176,6 @@ int fpga_step_motor(int action, int direction, int speed)
         __android_log_print(ANDROID_LOG_INFO, "debug 1", "Driver = %d", dev);
         close(dev);
     }
-
     return 0;
 }
 
@@ -211,7 +186,36 @@ Java_com_example_dot_1button_MainActivity_SetMotorState(JNIEnv *env, jobject thi
     // TODO: implement SetMotorState()
     __android_log_print(ANDROID_LOG_INFO, "FpgaStepMotorExample", "SetMotor");
     fpga_step_motor(act, dir, spd);
-
     return 0;
+}
 
+#define LED_DEVICE "/dev/fpga_led"
+
+int fpga_led(int x)
+{
+    int dev;
+    unsigned char data;
+    unsigned char retval;
+
+    unsigned char val[] = {0x00, 0xFF}; // 0이 끄는거 1이 키는거
+
+    dev = open(LED_DEVICE, O_RDWR);
+    if(dev < 0)
+    {
+        __android_log_print(ANDROID_LOG_INFO, "Device Open Error", "Driver = %d", x);
+    }
+    else {
+        __android_log_print(ANDROID_LOG_INFO, "Device Open Success", "Driver = %d", x);
+        write(dev, &val[x], sizeof(unsigned char));
+        close(dev);
+    }
+    return 0;
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_example_dot_1button_MainActivity_ReceiveLedValue(JNIEnv *env, jobject thiz, jint x) {
+    // TODO: implement ReceiveLedValue()
+    fpga_led(x);
+    return 0;
 }
